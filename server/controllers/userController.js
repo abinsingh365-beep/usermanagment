@@ -1,7 +1,10 @@
-import users from "../db/model/user.js";
+import Users from "../db/model/user.js";
 import { errorResponse, successResponse } from "../utils/responseHandler.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
+import { UsersId } from "./authcontrollers.js";
+
 
 dotenv.config();
 
@@ -48,15 +51,19 @@ export const addUser = async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Get user type from env
-    const user_type = process.env.EMPLOYEE_USERTYPE;
+    const EMPLOYEE_ID =
+      new mongoose.Types.ObjectId("6a0ff2e2410c5c68a6793211");
+
+    // // Get user type from env
+    // const user_type = process.env.EMPLOYEE_ID;
 
     // Create user
     await Users.create({
       name,
       email,
       password: hashedPassword,
-      user_type
+      user_id:UsersId.User_id,
+      user_type:"Employee"
     });
 
     // Success response
@@ -165,7 +172,7 @@ export const deleteUser = async (req, res) => {
 
     const { id } = req.params;
 
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await Users.findByIdAndDelete(id);
 
     if (!deletedUser) {
 
@@ -229,7 +236,7 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create user
-    const newUser = await User.create({
+    const newUser = await Users.create({
       name,
       email,
       password: hashedPassword,

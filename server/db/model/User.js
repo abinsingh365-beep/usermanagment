@@ -19,7 +19,13 @@ const userSchema = new mongoose.Schema(
     },
 
     user_type: {
-      type: String
+      type: String,
+      default : "admin"
+    },
+
+    user_id:{
+      type: String,
+      default : String
     }
   },
   {

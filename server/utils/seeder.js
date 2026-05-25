@@ -2,10 +2,20 @@ import mongoConnect from "../db/mongoConnect.js";
 import User from "../db/model/User.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
+import { UsersId } from "../controllers/authcontrollers.js";
+
 
 dotenv.config();
 
+//  const ADMIN_ID =
+//   new mongoose.Types.ObjectId("6a0ff2cf410c5c68a6793210");
+
+// const EMPLOYEE_ID =
+//   new mongoose.Types.ObjectId("6a0ff2e2410c5c68a6793211");
+
 const seeder = async () => {
+
 
     try {
 
@@ -25,10 +35,12 @@ const seeder = async () => {
             );
 
             await User.create({
-                name: "Admin",
-                email: "admin@gmail.com",
-                password: hashedPassword,
-                role: "admin",
+                name: "Adminn",
+                email: "adminn@gmail.com",
+                password: hashedPassword, 
+                user_id: UsersId.Admin_id,
+                user_type: "Admin"
+
             });
 
             console.log("Admin created");
