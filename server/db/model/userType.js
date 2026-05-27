@@ -1,20 +1,16 @@
 import mongoose from "mongoose";
 
-const userType =  mongoose.Schema(
-    {
-       user_type: {
-            type: mongoose.Schema.Types.ObjectId,
-            // ref: "user_types"
-            required: true
+const userTypeSchema = new mongoose.Schema(
+  {
+    user_type: {
+      type: String,
+      required: true
+    }
+  },
+  {
+    timestamps: true
+  }
+);
 
-        },
-    },
-    {
-        timestamps: true
-    });
+export default mongoose.models.UserType || mongoose.model("UserType", userTypeSchema, "user_types");
 
-const User =
-    
-    mongoose.model("user_types", userType);
-
-export default User;

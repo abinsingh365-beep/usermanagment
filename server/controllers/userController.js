@@ -3,7 +3,6 @@ import { errorResponse, successResponse } from "../utils/responseHandler.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
-import { UsersId } from "./authcontrollers.js";
 
 
 dotenv.config();
@@ -62,8 +61,7 @@ export const addUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      user_id:UsersId.User_id,
-      user_type:"Employee"
+      user_type:process.env.EMPLOYEE_USERTYPE
     });
 
     // Success response
@@ -73,7 +71,8 @@ export const addUser = async (req, res) => {
       data: {
         name,
         email,
-        password
+        password,
+       
       }
     });
 

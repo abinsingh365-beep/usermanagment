@@ -20,8 +20,7 @@ const userSchema = new mongoose.Schema(
 
     user_type: {
       type: mongoose.Types.ObjectId,
-      ref : "userTypes"
-      
+      ref: "UserType"
     },
 
 
