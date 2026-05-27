@@ -3,7 +3,6 @@ import User from "../db/model/User.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { UsersId } from "../controllers/authcontrollers.js";
 
 
 dotenv.config();
@@ -14,6 +13,19 @@ dotenv.config();
 // const EMPLOYEE_ID =
 //   new mongoose.Types.ObjectId("6a0ff2e2410c5c68a6793211");
 
+const userType =[
+    {
+        _id: "6a0ff2cf410c5c68a6793210",
+        user_type :"ADMIN"
+
+    }
+
+    {
+        _id:"6a0ff2e2410c5c68a6793211",
+        user_types:"employee"
+    }
+]
+
 const seeder = async () => {
 
 
@@ -21,6 +33,7 @@ const seeder = async () => {
 
         // Connect DB
         await mongoConnect();
+        await user_type.insertmany()
 
         // Check if admin exists
         const adminExists = await User.findOne({
@@ -37,9 +50,9 @@ const seeder = async () => {
             await User.create({
                 name: "Adminn",
                 email: "adminn@gmail.com",
-                password: hashedPassword, 
-                user_id: UsersId.Admin_id,
-                user_type: "Admin"
+                password: hashedPassword,
+                user_type: process.env.Admin_id
+                
 
             });
 
