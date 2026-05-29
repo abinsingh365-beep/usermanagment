@@ -19,14 +19,11 @@ const userSchema = new mongoose.Schema(
     },
 
     user_type: {
-      type: String,
-      default : "admin"
+      type: mongoose.Types.ObjectId,
+      ref: "UserType"
     },
 
-    user_id:{
-      type: String,
-      default : String
-    }
+
   },
   {
     timestamps: true

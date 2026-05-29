@@ -2,11 +2,7 @@ import users from "../db/model/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const UsersId  = {
-    Admin_id : "6a0ff2cf410c5c68a6793210",
 
-    User_id : "6a0ff2e2410c5c68a6793211"
-}
 
 export  const signin = async (req, res) => {
 
@@ -71,4 +67,3 @@ export  const signin = async (req, res) => {
 
     }
 };
-

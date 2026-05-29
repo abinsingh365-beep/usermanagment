@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, "../client")));
 
 // Home Route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/index.html"));
+  res.sendFile(path.join(__dirname, "../client/admin"));
 });
 
 

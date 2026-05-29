@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Management System</title>
+<link rel="stylesheet" href="./mainpage.css">
+  
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>User Management System</h1>
+
+    <div class="form-box">
+
+      <input type="hidden" id="userId">
+
+      <input type="text" placeholder="Enter Name" id="name">
+
+      <input type="email" placeholder="Enter Email" id="email">
+
+      <input type="password" placeholder="Enter Password" id="password">
+
+      <input type="text" placeholder="Enter User Type" id="userType">
+
+    </div>
+
+    <div class="btn-box">
+
+      <button class="add-btn" onclick="addUser()">
+        Add User
+      </button>
+
+      <button class="update-btn" onclick="updateUser()">
+        Update User
+      </button>
+
+      <button class="logout-btn" onclick="logout()">
+        Logout
+      </button>
+
+    </div>
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>User Type</th>
+          <th>Actions</th>
+        </tr>
+
+      </thead>
+
+      <tbody id="userTable">
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <script src="./mainpage.js">
+
+   
+  </script>
+
+</body>
+
+</html>
