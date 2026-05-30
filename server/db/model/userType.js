@@ -13,4 +13,7 @@ const userTypeSchema = new mongoose.Schema(
 );
 
 export default mongoose.models.UserType || mongoose.model("UserType", userTypeSchema, "user_types");
+<<<<<<< HEAD
 
+=======
+>>>>>>> 44412a7 (usm page updated)

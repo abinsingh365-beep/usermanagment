@@ -50,6 +50,10 @@ const seeder = async () => {
     }
 
     process.exit();
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 44412a7 (usm page updated)
 
   } catch (error) {
 
