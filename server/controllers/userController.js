@@ -61,7 +61,8 @@ export const addUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      user_type:process.env.EMPLOYEE_USERTYPE
+      user_type:process.env.EMPLOYEE_USERTYPE,
+      role:"employee"
     });
 
     // Success response

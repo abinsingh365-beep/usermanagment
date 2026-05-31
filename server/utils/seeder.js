@@ -42,6 +42,7 @@ const seeder = async () => {
         email: "admin@gmail.com",
         password: hashedPassword,
         user_type: userTypes[0]._id,
+        role:"admin"
       });
 
       console.log("Admin created");
@@ -50,10 +51,6 @@ const seeder = async () => {
     }
 
     process.exit();
-<<<<<<< HEAD
-=======
-    
->>>>>>> 44412a7 (usm page updated)
 
   } catch (error) {
 

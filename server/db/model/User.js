@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema(
       ref: "UserType"
     },
 
+    role: {
+      type: String,
+
+    }
+
 
   },
   {

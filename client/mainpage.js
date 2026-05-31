@@ -41,6 +41,12 @@ async function getUsers() {
           <!-- Display user type -->
           <td>${user.user_type}</td>
 
+          <!-- Display role -->
+          <td>${user.role}</td>
+          
+
+
+
           <td>
 
             <!-- Edit button -->
