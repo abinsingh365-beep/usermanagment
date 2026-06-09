@@ -3,6 +3,8 @@ import { errorResponse, successResponse } from "../utils/responseHandler.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
+import passwordTemplate from "../utils/passwordTemplate.js";
+import sendMail from "../utils/sendMail.js";
 
 
 dotenv.config();
@@ -47,14 +49,22 @@ export const addUser = async (req, res) => {
 
     const password = generatePassword();
 
+    let password_variables = {
+      USER_NAME: name,
+      EMAIL: email,
+      LOGIN_URL: "SDMS.COM",
+      PASWORD : password
+    }
+
+    const content = passwordTemplate(password_variables);
+    await sendMail(email, "your account password", content);
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const EMPLOYEE_ID =
-      new mongoose.Types.ObjectId("6a0ff2e2410c5c68a6793211");
 
     // // Get user type from env
-    // const user_type = process.env.EMPLOYEE_ID;
+    const user_type = process.env.EMPLOYEE_USERTYP;
 
     // Create user
     await Users.create({

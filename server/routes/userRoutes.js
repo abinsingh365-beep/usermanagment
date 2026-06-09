@@ -7,6 +7,7 @@ import {
   updateUser,
   deleteUser
 } from "../controllers/userController.js";
+import accesscontroll from "../utils/access_control_data.js";
 
 const router = express.Router();
 
