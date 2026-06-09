@@ -12,5 +12,5 @@ const userTypeSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.UserType || mongoose.model("UserType", userTypeSchema, "user_types");
+export default mongoose.model("UserType", userTypeSchema);
 

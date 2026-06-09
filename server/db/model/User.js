@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import "./userType.js";
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -23,10 +23,7 @@ const userSchema = new mongoose.Schema(
       ref: "UserType"
     },
 
-    role: {
-      type: String,
-
-    }
+    
 
 
   },

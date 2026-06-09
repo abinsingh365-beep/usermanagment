@@ -18,7 +18,7 @@ export  const signin = async (req, res) => {
         }
 
         const user = await users.findOne({ email })
-            .select("+password");
+            .select("+password").populate("user_type");
 
         if (!user) {
             return res.status(401).json({
@@ -31,6 +31,8 @@ export  const signin = async (req, res) => {
             password,
             user.password
         );
+
+        const userType = user.user_type.user_type;
 
         if (!isMatch) {
             return res.status(401).json({
@@ -53,7 +55,8 @@ export  const signin = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Login successful",
-            token,
+            data : {token, userType}
+            ,
         });
 
     } catch (err) {

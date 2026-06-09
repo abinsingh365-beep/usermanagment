@@ -52,8 +52,8 @@ export const addUser = async (req, res) => {
     let password_variables = {
       USER_NAME: name,
       EMAIL: email,
-      LOGIN_URL: "SDMS.COM",
-      PASWORD : password
+      LOGIN_URL: "http://localhost:3000/adminlogin.html",
+      PASSWORD : password
     }
 
     const content = passwordTemplate(password_variables);

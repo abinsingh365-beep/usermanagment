@@ -1,3 +1,5 @@
+
+
 async function signin(event) {
 
     // Stop page refresh
@@ -36,17 +38,33 @@ async function signin(event) {
         // Convert response to JSON
         const data = await response.json();
 
-        console.log(data);
+        const res_data = data.data
+
+        console.log(res_data);
+
+
+
+
 
         // Save token
-        if (data.token) {
+        if (res_data.token) {
 
-            localStorage.setItem("token", data.token);
+
+            localStorage.setItem("token", res_data.token);
 
             alert("Signin successful");
 
             // Redirect
-            window.location.href = "mainpage.html";
+
+
+            if (data.userType === "ADMIN") {
+                window.location.href = "mainpage.html";
+
+            }
+            else{
+                window.location.href = "userHomePage.html"
+            }
+
         }
 
     } catch (err) {
