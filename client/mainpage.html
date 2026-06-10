@@ -5,72 +5,78 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Management System</title>
-<link rel="stylesheet" href="./mainpage.css">
-  
+  <link rel="stylesheet" href="./mainpage.css">
+
 </head>
 
 <body>
 
-  <div class="container">
 
-    <h1>User Management System</h1>
+    <div class="container">
 
-    <div class="form-box">
+      <h1>User Management System</h1>
 
-      <input type="hidden" id="userId">
+      <div class="form-box">
 
-      <input type="text" placeholder="Enter Name" id="name">
+        <input type="hidden" id="userId">
 
-      <input type="email" placeholder="Enter Email" id="email">
+        <input type="text" placeholder="Enter Name" id="name">
 
-      <input type="password" placeholder="Enter Password" id="password">
+        <input type="email" placeholder="Enter Email" id="email">
 
-      <input type="text" placeholder="Enter User Type" id="userType">
+        <input type="password" placeholder="Enter Password" id="password">
+
+        <input type="text" placeholder="Enter User Type" id="userType">
+
+      </div>
+
+      <div class="btn-box">
+
+        <button class="add-btn" onclick="addUser()">
+          Add User
+        </button>
+
+        <button class="update-btn" onclick="updateUser()">
+          Update User
+        </button>
+
+        <button class="logout-btn" onclick="logout()">
+          Logout
+        </button>
+
+      </div>
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>User Type</th>
+            <th>Actions</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="userTable">
+
+        </tbody>
+
+      </table>
 
     </div>
+  <!-- <h2>Admin Dashboard</h2>
 
-    <div class="btn-box">
+  <input type="text" id="taskInput" placeholder="Enter Task">
+  <button onclick="addTask()">Add Task</button>
 
-      <button class="add-btn" onclick="addUser()">
-        Add User
-      </button>
+  <h3>Tasks</h3>
+  <ul id="adminTaskList"></ul> -->
 
-      <button class="update-btn" onclick="updateUser()">
-        Update User
-      </button>
 
-      <button class="logout-btn" onclick="logout()">
-        Logout
-      </button>
-
-    </div>
-
-    <table>
-
-      <thead>
-
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>User Type</th>
-          <th>Role</th>
-          <th>Actions</th>
-        </tr>
-
-      </thead>
-
-      <tbody id="userTable">
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-  <script src="./mainpage.js">
-
-   
-  </script>
+  <script src="./mainpage.js"></script>
+  <!-- <script src="./task.js"></script> -->
 
 </body>
 

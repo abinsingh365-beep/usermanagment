@@ -8,7 +8,6 @@ import { errorResponse } from "../utils/responseHandler.js";
 export const signin = async (req, res) => {
 
     try {
-
         const { email, password } = req.body;
 
         if (!email || !password) {
@@ -66,14 +65,12 @@ export const signin = async (req, res) => {
         });
 
     } catch (err) {
-
         console.error(err);
 
         return res.status(500).json({
             success: false,
             message: "Internal server error",
         });
-
     }
 };
 
