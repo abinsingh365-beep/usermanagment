@@ -56,8 +56,10 @@ async function signin(event) {
 
             // Redirect
 
+        
 
-            if (data.userType === "ADMIN") {
+
+            if (res_data.userType === "ADMIN") {
                 window.location.href = "mainpage.html";
 
             }

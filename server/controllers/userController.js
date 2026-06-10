@@ -277,3 +277,4 @@ export const registerUser = async (req, res) => {
     return res.status(response.statusCode).send(response);
   }
 };
+
