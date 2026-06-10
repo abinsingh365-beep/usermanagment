@@ -42,7 +42,7 @@ const seeder = async () => {
         email: "admin@gmail.com",
         password: hashedPassword,
         user_type: userTypes[0]._id,
-        role:"admin"
+        role:"ADMIN"
       });
 
       console.log("Admin created");

@@ -2,12 +2,8 @@ import users from "../db/model/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-
-
-export  const signin = async (req, res) => {
-
+export const signin = async (req, res) => {
     try {
-
         const { email, password } = req.body;
 
         if (!email || !password) {
@@ -17,8 +13,7 @@ export  const signin = async (req, res) => {
             });
         }
 
-        const user = await users.findOne({ email })
-            .select("+password").populate("user_type");
+        const user = await users.findOne({ email }).select("+password");
 
         if (!user) {
             return res.status(401).json({
@@ -27,12 +22,7 @@ export  const signin = async (req, res) => {
             });
         }
 
-        const isMatch = await bcrypt.compare(
-            password,
-            user.password
-        );
-
-        const userType = user.user_type.user_type;
+        const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             return res.status(401).json({
@@ -55,18 +45,21 @@ export  const signin = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Login successful",
-            data : {token, userType}
-            ,
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
         });
 
     } catch (err) {
-
         console.error(err);
 
         return res.status(500).json({
             success: false,
             message: "Internal server error",
         });
-
     }
 };
