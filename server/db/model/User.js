@@ -23,6 +23,16 @@ const userSchema = new mongoose.Schema(
       ref: "UserType"
     },
 
+    is_password_reset:{
+      type:Boolean,
+      default:false
+      
+    },
+
+    password_token: {
+      type : String,
+      required : true
+    }
     
 
 

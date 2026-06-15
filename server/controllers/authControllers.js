@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import { errorResponse } from "../utils/responseHandler.js";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import { log } from "console";
+import sendMail from "../utils/sendMail.js";
 
 
 export const signin = async (req, res) => {
@@ -84,11 +86,40 @@ export const signin = async (req, res) => {
   }
 };
 
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = User.findOne({ email });
+    if (user) {
+      const resetToken = jwt.sign(
+        { user_id: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "10m" }
+
+      );
+
+      await user.updateOne(
+        { email },
+        { $set: { password_token: resetToken} },
+      );
+
+      const reset_link = `${process.env.FRONTEND_URL}/forgotPassword.html?TOKEN${resetToken}`
+      const email_content = forgotPasswordTemplate({ USER_NAME: user.name, FORGOT_PASSWORD_URL: resetToken })
+      await sendMail(email, "reset password", email_content);
+
+    }
+  } catch (err) {
+    console.log("err from forgot passwod",err);
+    
+
+  }
+}
+
 
 
 
 // Forgot Password
-export const forgotPassword = async (req, res) => {
+export const forgotPasswordReset = async (req, res) => {
   try {
 
     const { email, newPassword, confirmPassword } = req.body;
