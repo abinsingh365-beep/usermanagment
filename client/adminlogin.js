@@ -1,11 +1,16 @@
-async function signin(event) {
+document.getElementById("loginForm").addEventListener("submit", login);
 
-    event.preventDefault();
+async function login(e) {
+    e.preventDefault();
 
     const email = document.getElementById("email").value;
-    const password = document.getElementById("pass").value;
+    const password = document.getElementById("password").value;
+
+    const btn = document.getElementById("loginBtn");
 
     try {
+        btn.innerText = "Logging in...";
+        btn.disabled = true;
 
         const response = await fetch("/api/auth/sign-in", {
             method: "POST",
@@ -20,31 +25,36 @@ async function signin(event) {
 
         const data = await response.json();
 
-        console.log(data);
+        console.log("LOGIN RESPONSE:", data);
 
-        if (data.success) {
+        if (data.status === true) {
 
+            // store token
             localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
 
-            alert("Signin successful");
+            alert("Login Success");
 
-            // Redirect
-
-        
-
-
-            if (res_data.userType === "ADMIN") {
+            // 🔥 ROLE BASED REDIRECT
+            if (data.user.user_type === "ADMIN") {
                 window.location.href = "mainpage.html";
-            } else {
+            }
+            else if (data.user.user_type === "EMPLOYEE") {
                 window.location.href = "userHomePage.html";
+            }
+            else {
+                alert("Role not found");
             }
 
         } else {
             alert(data.message);
         }
 
-    } catch (err) {
-        console.error("Signin Error:", err);
+    } catch (error) {
+        console.log("Login Error:", error);
         alert("Something went wrong");
+    } finally {
+        btn.innerText = "Login";
+        btn.disabled = false;
     }
 }

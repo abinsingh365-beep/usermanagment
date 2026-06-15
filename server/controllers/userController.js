@@ -64,7 +64,7 @@ export const addUser = async (req, res) => {
 
 
     // // Get user type from env
-    const user_type = process.env.EMPLOYEE_USERTYP;
+    const user_type = process.env.EMPLOYEE_USERTYPE;
 
     // Create user
     await Users.create({
