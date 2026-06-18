@@ -6,10 +6,10 @@ dotenv.config();
 
 const sendMail = async (to, subject, content) => {
     try {
-        console.log("MAILTRAP_HOST:", process.env.MAILTRAP_HOST);
-        console.log("MAILTRAP_PORT:", process.env.MAILTRAP_PORT);
-        console.log("MAILTRAP_USERNAME:", process.env.MAILTRAP_USERNAME);
-        console.log("MAILTRAP_PASSWORD:", process.env.MAILTRAP_PASSWORD);
+        // console.log("MAILTRAP_HOST:", process.env.MAILTRAP_HOST);
+        // console.log("MAILTRAP_PORT:", process.env.MAILTRAP_PORT);
+        // console.log("MAILTRAP_USERNAME:", process.env.MAILTRAP_USERNAME);
+        // console.log("MAILTRAP_PASSWORD:", process.env.MAILTRAP_PASSWORD);
 
         const transporter = nodemailer.createTransport({
             host: process.env.MAILTRAP_HOST,

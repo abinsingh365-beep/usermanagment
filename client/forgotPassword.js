@@ -1,33 +1,32 @@
-async function forgotPassword() {
+const form = document.getElementById("forgotForm");
+const message = document.getElementById("message");
 
-    const email = document.getElementById("email").value;
-    const newPassword = document.getElementById("newPassword").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+form.addEventListener("submit", async (e) => {
+e.preventDefault();
 
-    try {
 
-        const res = await fetch("/api/auth/forgot-password", {
-            method: "PUT",
+const email = document.getElementById("email").value;
+
+try {
+    const response = await fetch(
+        "http://localhost:3000/api/auth/forgot-password",
+        {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                email,
-                newPassword,
-                confirmPassword
-            })
-        });
-
-        const data = await res.json();
-
-        alert(data.message);
-
-        if (data.status) {
-            window.location.href = "adminlogin.html";
+            body: JSON.stringify({ email })
         }
+    );
 
-    } catch (error) {
-        console.log(error);
-        alert("Something went wrong");
-    }
+    const data = await response.json();
+
+    message.innerText = data.message;
+
+} catch (error) {
+    message.innerText = "Something went wrong";
+    console.log(error);
 }
+
+
+});

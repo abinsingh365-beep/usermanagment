@@ -1,42 +1,50 @@
-import { useSyncExternalStore } from "react";
-
 export default function forgotPasswordTemplate(data) {
-  const { USER_NAME,FORGOT_PASSWORD_URL } = data;
+  const { USER_NAME, FORGOT_PASSWORD_URL } = data;
 
-  return `<!DOCTYPE html>
+  return `
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Account Created</title>
+<title>Reset Password</title>
 </head>
 <body style="font-family: Arial, sans-serif; background:#f4f4f4; padding:20px;">
 
 <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 0 10px rgba(0,0,0,0.1);">
 
-    <div style="background:#4CAF50; color:white; padding:20px; text-align:center;">
-        <h1>Welcome!</h1>
-        <p>Your account has been created successfully.</p>
+    <div style="background:#ff9800; color:white; padding:20px; text-align:center;">
+        <h1>Forgot Password</h1>
+        <p>Reset your password securely.</p>
     </div>
 
     <div style="padding:30px;">
 
         <h2>Hello ${USER_NAME},</h2>
 
-        <p>Your login details are given below:</p>
+        <p>We received a request to reset your password.</p>
 
-        <table width="100%" cellspacing="0" cellpadding="10" style="border-collapse:collapse;">
-            <tr>
-                <td style="border:1px solid #ddd;"><strong>Username</strong></td>
-                <td style="border:1px solid #ddd;">${USER_NAME}</td>
-            </tr>
-            <tr>
-                <td style="border:1px solid #ddd;"><strong>Email</strong></td>
-                <td style="border:1px solid #ddd;">${FORGOT_PASSWORD_URL}</td>
-            
-        </table>
+        <p>Click the button below to create a new password:</p>
 
-        
+        <div style="text-align:center; margin:30px 0;">
+            <a href="${FORGOT_PASSWORD_URL}"
+               style="background:#ff9800;
+                      color:white;
+                      padding:12px 25px;
+                      text-decoration:none;
+                      border-radius:5px;
+                      display:inline-block;">
+                Reset Password
+            </a>
+        </div>
+
+        <p>If the button does not work, copy and paste this link into your browser:</p>
+
+        <p style="word-break: break-all;">
+            ${FORGOT_PASSWORD_URL}
+        </p>
+
+        <p>If you did not request a password reset, please ignore this email.</p>
 
     </div>
 
@@ -49,6 +57,4 @@ export default function forgotPasswordTemplate(data) {
 </body>
 </html>
 `;
-
-
 }

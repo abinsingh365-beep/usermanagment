@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import "./userType.js";
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -23,25 +24,23 @@ const userSchema = new mongoose.Schema(
       ref: "UserType"
     },
 
-    is_password_reset:{
-      type:Boolean,
-      default:false
-      
+    is_password_reset: {
+      type: Boolean,
+      default: false
     },
 
     password_token: {
-      type : String,
-      required : true
+      type: String,
+      default: null
     }
-    
-
-
   },
   {
     timestamps: true
   }
 );
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User =
+  mongoose.models.User ||
+  mongoose.model("User", userSchema);
 
 export default User;

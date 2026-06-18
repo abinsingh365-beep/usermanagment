@@ -1,11 +1,12 @@
 import User from "../db/model/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { errorResponse } from "../utils/responseHandler.js";
+import { errorResponse, successResponse } from "../utils/responseHandler.js";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { log } from "console";
 import sendMail from "../utils/sendMail.js";
+import forgotPasswordTemplate from "../utils/forgotPasswordTemplate.js"
 
 
 export const signin = async (req, res) => {
@@ -89,78 +90,63 @@ export const signin = async (req, res) => {
 export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
-    const user = User.findOne({ email });
-    if (user) {
-      const resetToken = jwt.sign(
-        { user_id: user._id },
-        process.env.JWT_SECRET,
-        { expiresIn: "10m" }
 
-      );
-
-      await user.updateOne(
-        { email },
-        { $set: { password_token: resetToken} },
-      );
-
-      const reset_link = `${process.env.FRONTEND_URL}/forgotPassword.html?TOKEN${resetToken}`
-      const email_content = forgotPasswordTemplate({ USER_NAME: user.name, FORGOT_PASSWORD_URL: resetToken })
-      await sendMail(email, "reset password", email_content);
-
-    }
-  } catch (err) {
-    console.log("err from forgot passwod",err);
-    
-
-  }
-}
-
-
-
-
-// Forgot Password
-export const forgotPasswordReset = async (req, res) => {
-  try {
-
-    const { email, newPassword, confirmPassword } = req.body;
-
-    if (!email || !newPassword || !confirmPassword) {
-      return res.status(400).json({
-        status: false,
-        message: "All fields required"
-      });
-    }
-
-    if (newPassword !== confirmPassword) {
-      return res.status(400).json({
-        status: false,
-        message: "Passwords not match"
-      });
-    }
-
+    // Find user
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(400).json({
         status: false,
-        message: "User not found"
+        message: "User account not found",
       });
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // Create reset token
+    const resetToken = jwt.sign(
+      { user_id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "10m" }
+    );
 
-    user.password = hashedPassword;
-    await user.save();
+    // Save token in database
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          password_token: resetToken,
+        },
+      }
+    );
+
+    // Create reset link
+const resetLink =
+`${process.env.FRONTEND_URL}/resetPassword.html?token=${resetToken}`;
+
+    // Create email content
+    const emailContent = forgotPasswordTemplate({
+      USER_NAME: user.name,
+      FORGOT_PASSWORD_URL: resetLink,
+    });
+
+    // Send email
+    await sendMail(
+      email,
+      "Reset Password",
+      emailContent
+    );
 
     return res.status(200).json({
       status: true,
-      message: "Password updated successfully"
+      message: "Password reset link has been sent",
     });
+    console.log("Reset Link:", resetLink);
 
   } catch (error) {
+    console.error("Forgot Password Error:", error);
+
     return res.status(500).json({
       status: false,
-      message: error.message
+      message: "Internal server error",
     });
   }
 };
@@ -168,3 +154,70 @@ export const forgotPasswordReset = async (req, res) => {
 
 
 
+// Forgot Password
+
+export const forgotPasswordReset = async (req, res) => {
+  try {
+    const { token, newPassword, confirmPassword } = req.body;
+
+    // Check required fields
+    if (!token || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        status: false,
+        message: "All fields are required",
+      });
+    }
+
+    // Check password match
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        status: false,
+        message: "Passwords do not match",
+      });
+    }
+
+    // Verify reset token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Find user
+    const user = await User.findById(decoded.user_id);
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found",
+      });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update password
+    const data = await User.updateOne(
+      { _id: decoded.user_id },
+      {
+        $set: {
+          password: hashedPassword,
+          password_token: null,
+        },
+      }
+    );
+
+    if (data.matchedCount === 1 && data.modifiedCount === 1) {
+      return res.status(200).json({
+        status: true,
+        message: "Password changed successfully",
+      });
+    }
+
+    return res.status(400).json({
+      status: false,
+      message: "Password update failed",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};

@@ -1,116 +1,188 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+<title>Animated Login</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
 }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+    background:linear-gradient(
         -45deg,
         #4facfe,
         #00f2fe,
         #43e97b,
         #38f9d7
     );
-    background-size: 400% 400%;
-    animation: gradient 12s ease infinite;
+    background-size:400% 400%;
+    animation:gradient 12s ease infinite;
 }
 
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
+@keyframes gradient{
+    0%{
+        background-position:0% 50%;
     }
-    50% {
-        background-position: 100% 50%;
+    50%{
+        background-position:100% 50%;
     }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-.container {
-    width: 380px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 35px;
-    border-radius: 18px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    animation: slideUp 0.8s ease;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    100%{
+        background-position:0% 50%;
     }
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-    font-size: 28px;
+/* Floating Circles */
+body::before,
+body::after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    animation:float 8s ease-in-out infinite;
 }
 
-input {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 18px;
-    border: 2px solid #e5e5e5;
-    border-radius: 10px;
-    font-size: 15px;
-    transition: 0.3s;
+body::before{
+    top:10%;
+    left:10%;
 }
 
-input:focus {
-    outline: none;
-    border-color: #4facfe;
-    box-shadow: 0 0 10px rgba(79, 172, 254, 0.3);
+body::after{
+    bottom:10%;
+    right:10%;
+    animation-delay:4s;
 }
 
-button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #4facfe, #00c6ff);
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-30px);
+    }
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
+.container{
+    width:380px;
+    background:rgba(255,255,255,0.95);
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    animation:slideUp 0.8s ease, glow 3s infinite alternate;
+    z-index:1;
 }
 
-button:active {
-    transform: scale(0.98);
+@keyframes slideUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-p {
-    text-align: center;
-    margin-top: 15px;
-    color: #666;
-    font-size: 14px;
+@keyframes glow{
+    from{
+        box-shadow:0 15px 35px rgba(79,172,254,0.3);
+    }
+    to{
+        box-shadow:0 15px 45px rgba(67,233,123,0.5);
+    }
+}
+
+h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+    font-size:28px;
+    animation:textGlow 2s infinite alternate;
+}
+
+@keyframes textGlow{
+    from{
+        text-shadow:0 0 5px #4facfe;
+    }
+    to{
+        text-shadow:0 0 20px #43e97b;
+    }
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-bottom:18px;
+    border:2px solid #e5e5e5;
+    border-radius:10px;
+    font-size:15px;
+    transition:0.3s;
+}
+
+input:focus{
+    outline:none;
+    border-color:#4facfe;
+    box-shadow:0 0 10px rgba(79,172,254,0.4);
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#4facfe,#00c6ff);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+    animation:pulse 2s infinite;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(79,172,254,0.4);
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.03);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+h5{
+    text-align:center;
+    margin-top:15px;
+}
+
+h5 a{
+    text-decoration:none;
+    color:#4facfe;
+    transition:0.3s;
+}
+
+h5 a:hover{
+    color:#43e97b;
 }
 </style>
 </head>
@@ -121,19 +193,20 @@ p {
     <h2>Login</h2>
 
     <form id="loginForm">
-
         <input type="email" id="email" placeholder="Email" required>
 
         <input type="password" id="password" placeholder="Password" required>
 
         <button type="submit" id="loginBtn">Login</button>
-        <h5><a href="./forgotPassword.html" style="text-decoration: none;">Forgot Password?</a></h5>
 
+        <h5>
+            <a href="./forgotPassword.html">Forgot Password?</a>
+        </h5>
     </form>
 </div>
-
 
 <script src="./adminlogin.js"></script>
 
 </body>
 </html>
+
