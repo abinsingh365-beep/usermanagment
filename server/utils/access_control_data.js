@@ -40,6 +40,7 @@ const accessControl = async function (access_type, req, res, next) {
         const allowed = access_types.split(",").map(id => control_data[id]);
 
         if (allowed.includes(userType)) {
+            req.user=user;
             return next();
         }
 

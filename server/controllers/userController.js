@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import passwordTemplate from "../utils/passwordTemplate.js";
 import sendMail from "../utils/sendMail.js";
+import User from "../db/model/user.js";
 
 
 dotenv.config();
@@ -53,7 +54,7 @@ export const addUser = async (req, res) => {
       USER_NAME: name,
       EMAIL: email,
       LOGIN_URL: "http://localhost:3000/adminlogin.html",
-      PASSWORD : password
+      PASSWORD: password
     }
 
     const content = passwordTemplate(password_variables);
@@ -71,8 +72,8 @@ export const addUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      user_type:process.env.EMPLOYEE_USERTYPE,
-      role:"EMPLOYEE"
+      user_type: process.env.EMPLOYEE_USERTYPE,
+      role: "EMPLOYEE"
     });
 
     // Success response
@@ -83,7 +84,7 @@ export const addUser = async (req, res) => {
         name,
         email,
         password,
-       
+
       }
     });
 
@@ -277,4 +278,64 @@ export const registerUser = async (req, res) => {
     return res.status(response.statusCode).send(response);
   }
 };
+
+export const resetPassword = async (req, res) => {
+  try {
+    let { currentPassword, newPassword } = req.body;
+    const user_data = req.user;
+
+    if (currentPassword === newPassword) {
+
+      let response = errorResponse({
+        statusCode: 400,
+        message: "try another password"
+      })
+      return res.response(response.statusCode).send(response)
+    
+    };
+
+      let isPasswordMAtch= bcrypt.compare(currentPassword, user_data.password)
+      
+      if(!isPasswordMAtch){
+        //return current password doesnt match res
+        const response = errorResponse({
+          statusCode:400,
+          message:"password not match"
+        })
+      }
+
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+
+      const updateUser = await User.updateOne({_id : user_data._id}, { $set : {password : hashedNewPassword, is_password_reset : true}})
+
+      if(updateUser){
+        // return res password resetted, you can login now
+        const response = successResponse({
+          statusCode:200,
+          message:" you can login now"
+        })
+      }
+
+      else{
+        // return password reset failed
+        const response = errorResponse({
+          statusCode:400,
+          message:"pssword reset failed"
+        })
+      }
+
+
+
+
+
+  } catch (error) {
+    const response = errorResponse({
+      statusCode:400,
+      message:"something went wrong"
+    })
+
+  }
+}
+
 
