@@ -52,7 +52,6 @@ async function getUsers() {
             <button 
               class="action-btn edit"
 
-              /* When clicked, send user data to editUser() */
               onclick="editUser(
                 '${user._id}',
                 '${user.name}',
@@ -68,7 +67,6 @@ async function getUsers() {
             <button 
               class="action-btn delete"
 
-              /* When clicked, delete selected user */
               onclick="deleteUser('${user._id}')">
 
               Delete

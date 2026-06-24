@@ -53,7 +53,7 @@ export const addUser = async (req, res) => {
     let password_variables = {
       USER_NAME: name,
       EMAIL: email,
-      LOGIN_URL: "http://localhost:3000/adminlogin.html",
+      LOGIN_URL: "http://localhost:3000/login.html",
       PASSWORD: password
     }
 
@@ -279,63 +279,37 @@ export const registerUser = async (req, res) => {
   }
 };
 
-export const resetPassword = async (req, res) => {
-  try {
-    let { currentPassword, newPassword } = req.body;
-    const user_data = req.user;
+export const changePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
 
-    if (currentPassword === newPassword) {
+        const user = await User.findById(req.user._id);
 
-      let response = errorResponse({
-        statusCode: 400,
-        message: "try another password"
-      })
-      return res.response(response.statusCode).send(response)
-    
-    };
+        const match = await bcrypt.compare(
+            oldPassword,
+            user.password
+        );
 
-      let isPasswordMAtch= bcrypt.compare(currentPassword, user_data.password)
-      
-      if(!isPasswordMAtch){
-        //return current password doesnt match res
-        const response = errorResponse({
-          statusCode:400,
-          message:"password not match"
-        })
-      }
+        if (!match) {
+            return res.status(400).json({
+                message: "Old password is incorrect"
+            });
+        }
 
-      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        user.password = await bcrypt.hash(
+            newPassword,
+            10
+        );
 
+        await user.save();
 
-      const updateUser = await User.updateOne({_id : user_data._id}, { $set : {password : hashedNewPassword, is_password_reset : true}})
+        res.status(200).json({
+            message: "Password changed successfully"
+        });
 
-      if(updateUser){
-        // return res password resetted, you can login now
-        const response = successResponse({
-          statusCode:200,
-          message:" you can login now"
-        })
-      }
-
-      else{
-        // return password reset failed
-        const response = errorResponse({
-          statusCode:400,
-          message:"pssword reset failed"
-        })
-      }
-
-
-
-
-
-  } catch (error) {
-    const response = errorResponse({
-      statusCode:400,
-      message:"something went wrong"
-    })
-
-  }
-}
-
-
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};

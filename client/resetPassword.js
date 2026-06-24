@@ -37,7 +37,7 @@ try {
 
     if (data.status) {
         setTimeout(() => {
-            window.location.href = "adminlogin.html";
+            window.location.href = "login.html";
         }, 2000);
     }
 

@@ -55,12 +55,9 @@ export const signin = async (req, res) => {
 
     // 5. Generate JWT token
     const token = jwt.sign(
-      {
-        id: user._id,
-        role: role
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+        { id: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
     );
 
     // 6. Send response

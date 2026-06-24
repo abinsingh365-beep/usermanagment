@@ -5,9 +5,11 @@ import {
   addUser,
   getAllUsers,
   updateUser,
-  deleteUser
+  deleteUser,
+  changePassword
 } from "../controllers/userController.js";
 import accesscontroll from "../utils/access_control_data.js";
+import {protect} from "../middleware/authMiddleware.js"
 
 const router = express.Router();
 
@@ -20,6 +22,12 @@ router.get("/all-users", getAllUsers);
 router.put("/update-user/:id", updateUser);
 
 router.delete("/delete-user/:id", deleteUser);
+router.put(
+    "/change-password",
+    protect,
+    changePassword
+);
+
 
 
 
