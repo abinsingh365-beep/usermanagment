@@ -24,12 +24,13 @@ async function login(e) {
 
         if (data.status === true) {
 
-            const user = data.user;
+            const user = data.data;
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(user));
 
             alert("Login Success");
+console.log("userrrr",user);
 
             // ROLE BASED REDIRECT
             if (user.user_type === "ADMIN") {
@@ -39,8 +40,7 @@ async function login(e) {
             else if (user.user_type === "EMPLOYEE") {
 
                 if (user.is_password_reset === false) {
-                    alert("Reset password to continue");
-                    window.location.href = "ResetPassword.html";
+                    window.location.href = "changePassword.html";
                 } else {
                     // FIX: backend sends "id", not "_id"
                     window.location.href = `userHomePage.html?id=${user.id}`;

@@ -60,18 +60,24 @@ export const signin = async (req, res) => {
         { expiresIn: "1d" }
     );
 
+    
     // 6. Send response
-    return res.status(200).json({
-      status: true,
-      message: "Login successful",
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        user_type: role
+   
+    const response = successResponse({
+      message : "login successfull",
+      data : {"user_type":user.user_type.user_type,
+        "token":token,
+       "is_password_reset": user.is_password_reset
+
       }
-    });
+      
+    })
+    return res.status(response.statusCode).send(response);
+
+
+
+
+
 
   } catch (error) {
     console.error("Signin Error:", error);

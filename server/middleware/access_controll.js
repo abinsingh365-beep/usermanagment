@@ -2,9 +2,7 @@ import { successResponse, errorResponse } from "../utils/responsehandler.js";
 import jwt from "jsonwebtoken";
 import control_data from "../utils/control_data.json" with{type: "json"};
 import User from "../db/model/user.js";
-import passwordTemplate from "../utils/passwordTemplate.js";
-import sendMail from "../utils/sendMail.js";
-import forgotPasswordTemplate from "./forgotPasswordTemplate.js";
+
 
 const accessControl = async function (access_type, req, res, next) {
     try {
@@ -16,6 +14,15 @@ const accessControl = async function (access_type, req, res, next) {
                 message: "please login to continue"
             });
             return res.status(response.statusCode).send(response)
+
+
+        const token = authHeader.split("")[1];
+        if(!token){
+            const response = errorResponse({
+                message:"token invailed"
+                
+            })
+        }
         }
         const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
         const user = await User.findById(decoded.user_id).populate("user_type");

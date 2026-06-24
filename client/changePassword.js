@@ -19,7 +19,7 @@ async function changePassword(e) {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                "Authorization": `bearer ${token}`
             },
             body: JSON.stringify({
                 oldPassword,
