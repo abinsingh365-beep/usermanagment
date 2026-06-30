@@ -25,12 +25,17 @@ async function login(e) {
         if (data.status === true) {
 
             const user = data.data;
-
-            localStorage.setItem("token", data.token);
+            console.log("token:", user.token);
+            
+            const authToken = user.token;
+            localStorage.setItem("token", authToken);
+            console.log("token:",authToken);
             localStorage.setItem("user", JSON.stringify(user));
+           
+
 
             alert("Login Success");
-console.log("userrrr",user);
+            console.log("userrrr", user);
 
             // ROLE BASED REDIRECT
             if (user.user_type === "ADMIN") {
@@ -52,6 +57,52 @@ console.log("userrrr",user);
                 window.location.href = "mainpage.html";
             }
 
+            
+    // ...
+    // let emailerr = document.getElementById("email-err");
+    // // let passerr = document.getElementById("pass-err");
+
+    // let emailreg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    // let passreg = /^.{6,}$/;
+
+    // emailerr.innerHTML = "";
+    // // passerr.innerHTML = "";
+
+    // // Validation
+    // if (!email && !password) {
+    //     emailerr.innerHTML = "email is required!";
+    //     passerr.innerHTML = "password is required!";
+    // }
+
+    // if (!email) {
+    //     emailerr.innerHTML = "email is required!";
+    //     return;
+    // } else if (!emailreg.test(email)) {
+    //     emailerr.innerHTML = "invalid email!";
+    //     return;
+    // }
+
+    // if (!password) {
+    //     passerr.innerHTML = "password is required!";
+    //     return;
+    // } else if (!passreg.test(password)) {
+    //     passerr.innerHTML = "invalid password!";
+    //     return;
+    // }
+
+    
+
+    // // Password validation is commented out
+
+    // let datas = {
+    //     email,
+    //     password
+    // };
+
+    // ...
+
+        
+
         } else {
             alert(data.message || "Login failed");
         }
@@ -62,7 +113,7 @@ console.log("userrrr",user);
     }
 
     finally {
-        btn.innerText = "Login";
+        btn.innerText = "Loginn........";
         btn.disabled = false;
     }
 }

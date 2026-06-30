@@ -308,6 +308,8 @@ export const changePassword = async (req, res) => {
         });
 
     } catch (error) {
+      console.log("err from change password");
+      
         res.status(500).json({
             message: error.message
         });

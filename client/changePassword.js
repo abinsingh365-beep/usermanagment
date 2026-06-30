@@ -1,9 +1,8 @@
-document
-    .getElementById("changePasswordForm")
-    .addEventListener("submit", changePassword);
 
-async function changePassword(e) {
-    e.preventDefault();
+
+
+async function changePassword(event) {
+    event.preventDefault();
 
     const oldPassword =
         document.getElementById("oldPassword").value;
@@ -12,6 +11,8 @@ async function changePassword(e) {
         document.getElementById("newPassword").value;
 
     const token = localStorage.getItem("token");
+    console.log("token from localStorage:", token);
+    
 
     const response = await fetch(
         "http://localhost:3000/api/user/change-password",
@@ -19,7 +20,7 @@ async function changePassword(e) {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `bearer ${token}`
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 oldPassword,

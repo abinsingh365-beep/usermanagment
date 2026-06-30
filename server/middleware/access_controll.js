@@ -4,10 +4,12 @@ import control_data from "../utils/control_data.json" with{type: "json"};
 import User from "../db/model/user.js";
 
 
-const accessControl = async function (access_type, req, res, next) {
+const accessControl = async function (access_types, req, res, next) {
     try {
-        if (access_type === "*") return next();
+        console.log("access control worked")
+        if (access_types === "*") return next();
         const authHeader = req.headers.authorization;
+        console.log("authHeader from access ctrl :", authHeader);
 
         if (!authHeader) {
             const response = errorResponse({
@@ -15,17 +17,20 @@ const accessControl = async function (access_type, req, res, next) {
             });
             return res.status(response.statusCode).send(response)
 
-
-        const token = authHeader.split("")[1];
-        if(!token){
+        }
+        const token = authHeader.split(" ")[1];
+        if (!token) {
             const response = errorResponse({
-                message:"token invailed"
-                
+                message: "token invailed"
+
             })
+            return res.status(response.statusCode).send(response)
         }
-        }
-        const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("decoded from access ctrl :", decoded);
         const user = await User.findById(decoded.user_id).populate("user_type");
+        console.log("user from access ctrl :", user);
 
         if (!user) {
             const response = errorResponse({
@@ -44,10 +49,13 @@ const accessControl = async function (access_type, req, res, next) {
         }
 
         const usertype = user.user_type.user_type;
+        console.log("usertype from access ctrl :", usertype);
         const allowed = access_types.split(",").map(id => control_data[id]);
+        console.log("allowed from access ctrl :", allowed);
 
-        if (allowed.includes(userType)) {
-            req.user=user;
+        if (allowed.includes(usertype.toLowerCase())) {
+            console.log("user from access ctrl :", user);
+            req.user = user;
             return next();
         }
 
@@ -56,17 +64,17 @@ const accessControl = async function (access_type, req, res, next) {
                 message: "not allowed to access this route",
                 statusCode: 403
             });
-            return res.status(response.statusCode).send(respose);
+            return res.status(response.statusCode).send(response);
 
         }
-    }catch (err) {
-        console.log("err from access_ctrl:", err.mesage);
+    } catch (err) {
+        console.log("err from access_ctrl:", err);
 
         const response = errorResponse({
             message: err.message || "something went wrong",
             statusCode: 500
         });
-         
+
         return res.status(response.statusCode).send(response);
     }
 
