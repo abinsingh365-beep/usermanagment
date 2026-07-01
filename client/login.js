@@ -7,6 +7,47 @@ async function login(e) {
     const password = document.getElementById("password").value;
     const btn = document.getElementById("loginBtn");
 
+     let emailerr = document.getElementById("email-err");
+    let passerr = document.getElementById("pass-err");
+
+    let emailreg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    let passreg = /^.{6,}$/;
+
+    emailerr.innerHTML = "";
+    passerr.innerHTML = "";
+
+    // Validation
+    if (!email && !password) {
+        emailerr.innerHTML = "email is required!";
+        passerr.innerHTML = "password is required!";
+
+        return;
+    }
+
+    if (!email) {
+        emailerr.innerHTML = "email is required!";
+        return;
+    } else if (!emailreg.test(email)) {
+        emailerr.innerHTML = "invalid email!";
+        return;
+    }
+
+    if (!password) {
+        passerr.innerHTML = "password is required!";
+        return;
+    } else if (!passreg.test(password)) {
+        passerr.innerHTML = "password must be 6 character!";
+        return;
+    }
+
+    
+
+
+    let datas = {
+        email,
+        password
+    };
+
     try {
         btn.innerText = "Logging in...";
         btn.disabled = true;
@@ -59,45 +100,7 @@ async function login(e) {
 
             
     // ...
-    // let emailerr = document.getElementById("email-err");
-    // // let passerr = document.getElementById("pass-err");
-
-    // let emailreg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    // let passreg = /^.{6,}$/;
-
-    // emailerr.innerHTML = "";
-    // // passerr.innerHTML = "";
-
-    // // Validation
-    // if (!email && !password) {
-    //     emailerr.innerHTML = "email is required!";
-    //     passerr.innerHTML = "password is required!";
-    // }
-
-    // if (!email) {
-    //     emailerr.innerHTML = "email is required!";
-    //     return;
-    // } else if (!emailreg.test(email)) {
-    //     emailerr.innerHTML = "invalid email!";
-    //     return;
-    // }
-
-    // if (!password) {
-    //     passerr.innerHTML = "password is required!";
-    //     return;
-    // } else if (!passreg.test(password)) {
-    //     passerr.innerHTML = "invalid password!";
-    //     return;
-    // }
-
-    
-
-    // // Password validation is commented out
-
-    // let datas = {
-    //     email,
-    //     password
-    // };
+   
 
     // ...
 

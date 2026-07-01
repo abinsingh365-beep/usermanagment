@@ -13,6 +13,9 @@ dotenv.config();
 export const addUser = async (req, res) => {
   try {
     const { name, email } = req.body;
+    
+    
+
 
     // Check required fields
     if (!name || !email) {
@@ -315,3 +318,16 @@ export const changePassword = async (req, res) => {
         });
     }
 };
+
+export const testAdduser = async (req,res)=>{
+  const {name, email} = req.body;
+  const photo = req.files.map(file=>file.path);
+
+console.log(req.file);
+   
+    const responsee = successResponse({
+      message:"data recieved successfully",
+      data:{name,email,photo}
+    })
+    return res.status(responsee.statusCode).send(responsee);
+}

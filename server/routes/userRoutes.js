@@ -1,4 +1,5 @@
 import express from "express";
+import upload from   "../middleware/fileUpload.js";
 
 import {
   registerUser,
@@ -6,7 +7,8 @@ import {
   getAllUsers,
   updateUser,
   deleteUser,
-  changePassword
+  changePassword,
+  testAdduser
 } from "../controllers/userController.js";
 import accesscontroll from "../middleware/access_controll.js"
 
@@ -32,6 +34,7 @@ router.put(
   setAccessControl("1,2"),
   changePassword
 );
+router.post("/testAdduser" , setAccessControl("*"), upload.array("photo", 4) , testAdduser)
 
 
 
