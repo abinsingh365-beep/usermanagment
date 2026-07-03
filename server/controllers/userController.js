@@ -331,3 +331,141 @@ console.log(req.file);
     })
     return res.status(responsee.statusCode).send(responsee);
 }
+
+export const getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).populate("user_type");
+
+        if (!user) {
+            return res.status(404).json({
+                status: false,
+                message: "User not found"
+            });
+        }
+
+        return res.json({
+            status: true,
+            data: user
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message
+        });
+    }
+};
+
+
+
+
+// Update Name
+export const updateName = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+        const { name } = req.body;
+
+        const user = await User.findByIdAndUpdate(
+            id,
+            { name },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({
+                status: false,
+                message: "User not found"
+            });
+        }
+
+        res.json({
+            status: true,
+            message: "Name updated successfully",
+            data: user
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            status: false,
+            message: err.message
+        });
+    }
+};
+
+// Update Email
+export const updateEmail = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+        const { email } = req.body;
+
+        const user = await User.findByIdAndUpdate(
+            id,
+            { email },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({
+                status: false,
+                message: "User not found"
+            });
+        }
+
+        res.json({
+            status: true,
+            message: "Email updated successfully",
+            data: user
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+            status: false,
+            message: err.message
+        });
+
+    }
+
+};
+
+// Update Password
+export const updatePassword = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+        const { password } = req.body;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await User.findByIdAndUpdate(
+            id,
+            { password: hashedPassword },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({
+                status: false,
+                message: "User not found"
+            });
+        }
+
+        res.json({
+            status: true,
+            message: "Password updated successfully"
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+            status: false,
+            message: err.message
+        });
+
+    }
+
+};

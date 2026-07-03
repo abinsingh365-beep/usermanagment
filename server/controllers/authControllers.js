@@ -64,15 +64,19 @@ export const signin = async (req, res) => {
     // 6. Send response
    
     const response = successResponse({
-      message : "login successfull",
-      data : {"user_type":user.user_type.user_type,
-        "token":token,
-       "is_password_reset": user.is_password_reset
-
-      }
+  message: "Login successful",
+  data: {
+    id: user._id,
+    user_type: user.user_type.user_type,
+    token: token,
+    is_password_reset: user.is_password_reset
+  }
+});
       
-    })
+    
     return res.status(response.statusCode).send(response);
+
+    
 
 
 
@@ -202,6 +206,7 @@ export const forgotPasswordReset = async (req, res) => {
         $set: {
           password: hashedPassword,
           password_token: null,
+          is_password_reset: true,
         },
       }
     );

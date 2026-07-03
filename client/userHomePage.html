@@ -1,11 +1,223 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>User Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+header{
+    background:#2196f3;
+    color:#fff;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.profile-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#fff;
+    color:#2196f3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.container{
+    padding:30px;
+}
+
+.profile-card{
+    position:absolute;
+    top:75px;
+    right:20px;
+    width:350px;
+    background:#fff;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+    display:none;
+}
+
+.profile-card h3{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.field{
+    margin-bottom:20px;
+}
+
+.field label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:bold;
+}
+
+.field input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:15px;
+}
+
+.update-btn{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    background:#2196f3;
+    color:#fff;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.update-btn:hover{
+    background:#1976d2;
+}
+
+.close-btn{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    background:#f44336;
+    color:#fff;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.close-btn:hover{
+    background:#d32f2f;
+}
+
+.logout-btn{
+    background:#f44336;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:15px;
+    transition:.3s;
+}
+
+.logout-btn:hover{
+    background:#d32f2f;
+}
+</style>
+
 </head>
 <body>
-<h1 id="welcomeText"></h1>
- 
-<script src="./userHomePage.js"></script>
+
+<header>
+
+    <h2>Welcome, <span id="userName">User</span></h2>
+
+    
+
+    <div class="profile-icon" onclick="toggleProfile()">
+        👤
+    </div>
+
+    
+
+</header>
+
+<div class="container">
+
+    <h2>User Dashboard</h2>
+    <p>Welcome to your dashboard.</p>
+
+</div>
+
+<div class="profile-card" id="profileCard">
+
+    <h3>My Profile</h3>
+
+    <div class="field">
+        <label for="name">Name</label>
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter Name"
+            autocomplete="name"
+        >
+        <button
+            type="button"
+            class="update-btn"
+            onclick="updateName()">
+            Update Name
+        </button>
+    </div>
+
+    <div class="field">
+        <label for="email">Email</label>
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter Email"
+            autocomplete="email"
+        >
+        <button
+            type="button"
+            class="update-btn"
+            onclick="updateEmail()">
+            Update Email
+        </button>
+    </div>
+
+    <div class="field">
+        <label for="password">New Password</label>
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter New Password"
+            autocomplete="new-password"
+        >
+        <button
+            type="button"
+            class="update-btn"
+            onclick="updatePassword()">
+            Update Password
+        </button>
+    </div>
+
+    <button
+        type="button"
+        class="close-btn"
+        onclick="toggleProfile()">
+        Close
+    </button><br><br>
+
+    <button class="logout-btn" onclick="logout()">
+            Logout
+        </button>
+
+     
+
+</div>
+
+<script src="userHomePage.js"></script>
+
 </body>
 </html>
