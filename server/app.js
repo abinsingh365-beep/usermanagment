@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import errorHandler from "./middleware/errorHandler.js";
+
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -43,6 +45,8 @@ app.use(express.static(path.join(__dirname, "../client")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/admin"));
 });
+
+app.use(errorHandler);
 
 
 // Server

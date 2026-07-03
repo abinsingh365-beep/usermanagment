@@ -31,6 +31,11 @@ export const signin = async (req, res) => {
         status: false,
         message: "User not found"
       });
+
+    //  const error =  new Error("user not found");
+    //  err.statusCode(404)
+    //  throw error;
+
     }
 
     // 3. Check password
@@ -85,12 +90,13 @@ export const signin = async (req, res) => {
 
   } catch (error) {
     console.error("Signin Error:", error);
+    next(err);
 
-    return res.status(500).json({
-      status: false,
-      message: "Server Error",
-      error: error.message
-    });
+    // return res.status(500).json({
+    //   status: false,
+    //   message: "Server Error",
+    //   error: error.message
+    // });
   }
 };
 
@@ -223,9 +229,6 @@ export const forgotPasswordReset = async (req, res) => {
       message: "Password update failed",
     });
   } catch (error) {
-    return res.status(500).json({
-      status: false,
-      message: error.message,
-    });
+      next(err);
   }
 };

@@ -39,7 +39,7 @@ router.put(
   changePassword
 );
 router.post("/testAdduser", setAccessControl("*"), upload.array("photo", 4), testAdduser)
-router.get("/user/:id", setAccessControl("*"), getUserById);
+router.get("/user/:id", setAccessControl("2"), getUserById);
 router.put("/update-name/:id", setAccessControl("1,2"), updateName);
 router.put("/update-email/:id", setAccessControl("1,2"), updateEmail);
 router.put("/update-password/:id", setAccessControl("1,2"), updatePassword);
