@@ -32,7 +32,12 @@ const userSchema = new mongoose.Schema(
     password_token: {
       type: String,
       default: null
-    }
+    },
+
+    profile_image:{
+    type:String,
+    default:""
+}
   },
   {
     timestamps: true

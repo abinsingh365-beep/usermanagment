@@ -469,3 +469,150 @@ export const updatePassword = async (req, res) => {
     }
 
 };
+
+export const updateProfile = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const { name, email, password } = req.body;
+
+
+        const updateData = {
+            name,
+            email
+        };
+
+
+        // Update password only if user entered new password
+        if(password && password.trim() !== ""){
+
+            updateData.password = await bcrypt.hash(password,10);
+
+        }
+
+
+        const user = await User.findByIdAndUpdate(
+            id,
+            updateData,
+            { new:true }
+        );
+
+
+        if(!user){
+
+            return res.status(404).json({
+                status:false,
+                message:"User not found"
+            });
+
+        }
+
+
+        res.json({
+
+            status:true,
+            message:"Profile updated successfully",
+            data:user
+
+        });
+
+
+    } catch(err){
+
+        res.status(500).json({
+
+            status:false,
+            message:err.message
+
+        });
+
+    }
+
+};
+
+
+export const updateProfileImage = async (req, res) => {
+
+    try {
+
+        console.log("FILE:", req.file);
+
+
+        const { id } = req.params;
+
+
+        if (!req.file) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message: "Please select an image"
+
+            });
+
+        }
+
+
+        const user = await User.findByIdAndUpdate(
+
+            id,
+
+            {
+                profile_image: req.file.filename
+            },
+
+            {
+                new: true
+            }
+
+        );
+
+
+        if (!user) {
+
+            return res.status(404).json({
+
+                status: false,
+
+                message: "User not found"
+
+            });
+
+        }
+
+
+        return res.json({
+
+            status: true,
+
+            message: "Profile image updated successfully",
+
+            data: {
+
+                profile_image: user.profile_image
+
+            }
+
+        });
+
+
+    } catch (error) {
+
+
+        console.log(error);
+
+
+        return res.status(500).json({
+
+            status: false,
+
+            message: error.message
+
+        });
+
+    }
+
+};

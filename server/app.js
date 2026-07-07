@@ -37,21 +37,37 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 
 
-// Static Folder
-app.use(express.static(path.join(__dirname, "../client")));
+// Uploads folder  ✅ ADD THIS
+app.use("/uploads", express.static(path.join(__dirname,"uploads")));
+
+
+// Client static folder
+app.use(
+    express.static(
+        path.join(__dirname, "../client")
+    )
+);
 
 
 // Home Route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/admin"));
+
+    res.sendFile(
+        path.join(__dirname, "../client/index.html")
+    );
+
 });
 
+
+// Error Handler
 app.use(errorHandler);
 
 
 // Server
 app.listen(process.env.PORT, () => {
-  console.log(
-    `Server running at http://localhost:${process.env.PORT}`
-  );
+
+    console.log(
+        `Server running at http://localhost:${process.env.PORT}`
+    );
+
 });
