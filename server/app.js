@@ -17,6 +17,7 @@ import cors from "cors";
 const app = express();
 
 
+
 // Fix __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,7 +38,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 
 
-// Uploads folder  ✅ ADD THIS
+// Uploads folder  
 app.use("/uploads", express.static(path.join(__dirname,"uploads")));
 
 

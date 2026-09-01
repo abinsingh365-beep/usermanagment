@@ -1,107 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome Page</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+  </head>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
+  <body>
+    <div id="root"></div>
 
-body{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(-45deg,#667eea,#764ba2,#4facfe,#00f2fe);
-    background-size:400% 400%;
-    animation:gradientBG 10s ease infinite;
-}
-
-.container{
-    width:400px;
-    background:rgba(255,255,255,0.95);
-    padding:50px 40px;
-    text-align:center;
-    border-radius:20px;
-    box-shadow:0 15px 35px rgba(0,0,0,0.2);
-    animation:fadeIn 1s ease;
-}
-
-h1{
-    color:#333;
-    font-size:42px;
-    margin-bottom:10px;
-}
-
-p{
-    color:#666;
-    margin-bottom:30px;
-    font-size:18px;
-}
-
-button{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 20px rgba(102,126,234,0.4);
-}
-
-a{
-    text-decoration:none;
-}
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(30px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-@keyframes gradientBG{
-    0%{
-        background-position:0% 50%;
-    }
-    50%{
-        background-position:100% 50%;
-    }
-    100%{
-        background-position:0% 50%;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-    <h1>Welcome</h1>
-    <p>User Management System</p>
-
-    <a href="./login.html">
-        <button>Sign In</button>
-    </a>
-</div>
-
-</body>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
