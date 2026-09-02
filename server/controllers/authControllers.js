@@ -1,7 +1,7 @@
 import User from "../db/model/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { errorResponse, successResponse } from "../utils/responseHandler.js";
+import { errorResponse, successResponse } from "../utils/responsehandler.js";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { log } from "console";
