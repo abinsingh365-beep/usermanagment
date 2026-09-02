@@ -1,5 +1,5 @@
 
-import { errorResponse, successResponse } from "../utils/responseHandler.js";
+import { errorResponse, successResponse } from "../utils/responsehandler.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
