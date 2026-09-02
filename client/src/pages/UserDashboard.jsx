@@ -146,7 +146,7 @@ function UserDashboard() {
         if (userData.profile_image) {
           dispatch({
             type: "SET_IMAGE_PREVIEW",
-            payload: `http://localhost:3000/uploads/${userData.profile_image}`,
+            payload: `${import.meta.env.VITE_API_URL}/uploads/${userData.profile_image}`,
           });
         }
       }
@@ -349,7 +349,7 @@ function UserDashboard() {
         if (result.data?.profile_image) {
           dispatch({
             type: "SET_IMAGE_PREVIEW",
-            payload: `http://localhost:3000/uploads/${result.data.profile_image}`,
+            payload: `${import.meta.env.VITE_API_URL}/uploads/${result.data.profile_image}`,
           });
         }
       }

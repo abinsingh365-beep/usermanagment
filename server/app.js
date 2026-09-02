@@ -27,6 +27,10 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req,res)=>{
+    res.send("your server is live...")
+})
+
 
 // Database
 mongoConnect();

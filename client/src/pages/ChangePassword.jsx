@@ -1,5 +1,6 @@
 
 import { useReducer } from "react";
+import api from "../services/api";
 
 // ==========================================
 // INITIAL STATE
@@ -86,32 +87,16 @@ function ChangePassword() {
         return;
       }
 
-      const response = await fetch(
-        "http://localhost:3000/api/user/change-password",
+      const response = await api.put(
+        "/user/change-password",
         {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            oldPassword,
-            newPassword,
-          }),
+          oldPassword,
+          newPassword,
         }
       );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        alert(
-          data.message || "Failed to change password"
-        );
-        return;
-      }
-
       alert(
-        data.message || "Password changed successfully"
+        response.data.message || "Password changed successfully"
       );
 
       // Clear passwords
