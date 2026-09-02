@@ -484,6 +484,7 @@ function UserDashboard() {
 
               <input
                 type="file"
+                name="photo"
                 accept="image/*"
                 onChange={handleFileChange}
                 className="mt-5 w-full text-sm"

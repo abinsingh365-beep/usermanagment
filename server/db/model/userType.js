@@ -4,13 +4,19 @@ const userTypeSchema = new mongoose.Schema(
   {
     user_type: {
       type: String,
-      required: true
-    }
+      required: true,
+      unique: true,
+      uppercase: true,
+      trim: true,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-export default mongoose.model("UserType", userTypeSchema);
+const UserType =
+  mongoose.models.UserType ||
+  mongoose.model("UserType", userTypeSchema);
 
+export default UserType;

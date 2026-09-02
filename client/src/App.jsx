@@ -6,7 +6,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserDashboard from "./pages/UserDashboard";
-
+import ChangePassword from "./pages/ChangePassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -62,6 +62,11 @@ function App() {
         <Route
           path="*"
           element={<Welcome />}
+        />
+
+        <Route
+          path="/change-password"
+          element={<ChangePassword />}
         />
 
       </Routes>

@@ -1,11 +1,11 @@
-import Users from "../db/model/user.js";
+
 import { errorResponse, successResponse } from "../utils/responseHandler.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import passwordTemplate from "../utils/passwordTemplate.js";
 import sendMail from "../utils/sendMail.js";
-import User from "../db/model/user.js";
+import User from "../db/model/User.js";
 
 
 dotenv.config();
@@ -56,7 +56,7 @@ export const addUser = async (req, res) => {
     let password_variables = {
       USER_NAME: name,
       EMAIL: email,
-      LOGIN_URL: "http://localhost:3000/login.html",
+      LOGIN_URL: "http://localhost:5173/login",
       PASSWORD: password
     }
 
@@ -303,6 +303,8 @@ export const changePassword = async (req, res) => {
             newPassword,
             10
         );
+
+        user.is_password_reset = true
 
         await user.save();
 

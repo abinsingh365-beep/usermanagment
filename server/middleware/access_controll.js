@@ -1,7 +1,7 @@
 import { successResponse, errorResponse } from "../utils/responsehandler.js";
 import jwt from "jsonwebtoken";
 import control_data from "../utils/control_data.json" with{type: "json"};
-import User from "../db/model/user.js";
+import User from "../db/model/User.js";
 
 
 const accessControl = async function (access_types, req, res, next) {
