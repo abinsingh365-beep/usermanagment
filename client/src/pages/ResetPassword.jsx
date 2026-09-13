@@ -196,7 +196,7 @@ function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-400 via-cyan-400 to-green-400 p-5">
+    <div className="min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-blue-400 via-cyan-400 to-green-400 p-5">
 
       {/* Background circles */}
       <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-white/20 animate-pulse"></div>
@@ -235,7 +235,7 @@ function ResetPassword() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-lg hover:-translate-y-1 hover:shadow-xl transition disabled:opacity-50"
+            className="w-full py-3 rounded-xl bg-linear-to-r from-blue-500 to-cyan-500 text-white font-bold text-lg hover:-translate-y-1 hover:shadow-xl transition disabled:opacity-50"
           >
             {loading
               ? "Resetting..."

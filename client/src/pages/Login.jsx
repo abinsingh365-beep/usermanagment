@@ -140,109 +140,154 @@ function Login() {
   // HANDLE LOGIN
   // ==========================================
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!validate()) {
-      return;
-    }
+  // Validate form
+  if (!validate()) {
+    return;
+  }
 
-    try {
-      dispatch({
-        type: "SET_LOADING",
-        payload: true,
-      });
+  try {
+    dispatch({
+      type: "SET_LOADING",
+      payload: true,
+    });
 
-      const response = await api.post(
-        "/auth/sign-in",
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+    console.log(
+      "Login API:",
+      `${import.meta.env.VITE_API_URL}/api/auth/sign-in`
+    );
+
+    const response = await api.post(
+      "/auth/sign-in",
+      {
+        email: formData.email,
+        password: formData.password,
+      }
+    );
+
+    console.log(
+      "LOGIN RESPONSE:",
+      response.data
+    );
+
+    const data = response.data;
+
+    // ==========================================
+    // LOGIN SUCCESS
+    // ==========================================
+
+    if (data.status === true) {
+      const user = data.data;
 
       console.log(
-        "LOGIN RESPONSE:",
-        response.data
+        "Logged user:",
+        user
       );
 
-      const data = response.data;
+      // ========================================
+      // SAVE TOKEN
+      // ========================================
 
-      if (data.status === true) {
-        const user = data.data;
-
-        console.log("Logged user:", user);
-
-        // Save token
+      if (user.token) {
         localStorage.setItem(
           "token",
           user.token
         );
-
-        // Save complete user
-        localStorage.setItem(
-          "user",
-          JSON.stringify(user)
-        );
-
-        alert("Login Success");
-
-        // ======================================
-        // ADMIN
-        // ======================================
-        if (user.user_type === "ADMIN") {
-          navigate("/admin");
-        }
-
-        // ======================================
-        // EMPLOYEE
-        // ======================================
-        else if (user.user_type === "EMPLOYEE") {
-
-          if (user.is_password_reset === false) {
-            navigate("/change-password");
-
-          } else {
-            navigate(`/user/${user.id}`);
-          }
-        }
-
-        // ======================================
-        // OTHER USERS
-        // ======================================
-        else {
-          navigate(`/user/${user.id}`);
-        }
-
-      } else {
-        alert(
-          data.message || "Login failed"
-        );
       }
 
-    } catch (error) {
-      console.log(
-        "Login Error:",
-        error
+      // ========================================
+      // SAVE USER
+      // ========================================
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(user)
       );
 
-      alert(
-        error.response?.data?.message ||
-          "Something went wrong"
-      );
+      alert("Login Success");
 
-    } finally {
-      dispatch({
-        type: "SET_LOADING",
-        payload: false,
-      });
+      // ========================================
+      // ADMIN
+      // ========================================
+
+      if (user.user_type === "ADMIN") {
+        navigate("/admin");
+      }
+
+      // ========================================
+      // EMPLOYEE
+      // ========================================
+
+      else if (
+        user.user_type === "EMPLOYEE"
+      ) {
+        if (
+          user.is_password_reset === false
+        ) {
+          navigate("/change-password");
+        } else {
+          navigate(`/user/${user.id}`);
+        }
+      }
+
+      // ========================================
+      // SELLER / OTHER USER
+      // ========================================
+
+      else {
+        navigate(`/user/${user.id}`);
+      }
     }
-  };
+
+    // ==========================================
+    // LOGIN FAILED
+    // ==========================================
+
+    else {
+      alert(
+        data.message ||
+          "Login failed"
+      );
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Login Error:",
+      error
+    );
+
+    console.error(
+      "Status:",
+      error.response?.status
+    );
+
+    console.error(
+      "Response:",
+      error.response?.data
+    );
+
+    alert(
+      error.response?.data?.message ||
+        "Something went wrong"
+    );
+
+  } finally {
+
+    dispatch({
+      type: "SET_LOADING",
+      payload: false,
+    });
+
+  }
+};
 
   // ==========================================
   // UI
   // ==========================================
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-600 p-5">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-400 via-cyan-400 to-blue-600 p-5">
 
       {/* Background circles */}
       <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-white/10 blur-sm animate-pulse"></div>

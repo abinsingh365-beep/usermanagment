@@ -1,11 +1,21 @@
+
 import axios from "axios";
 
+const apiURL = import.meta.env.VITE_API_URL;
+
+if (!apiURL) {
+  throw new Error("VITE_API_URL is not configured");
+}
+
+const baseURL = apiURL.endsWith("/api")
+  ? apiURL
+  : `${apiURL}/api`;
 
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}`,
+  baseURL,
   headers: {
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  },
 });
 
 api.interceptors.request.use(
@@ -18,9 +28,8 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 export default api;
+

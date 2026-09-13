@@ -121,7 +121,7 @@ function ChangePassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 to-cyan-400 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-400 to-cyan-400 px-4">
 
       <form
         onSubmit={changePassword}

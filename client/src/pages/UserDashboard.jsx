@@ -398,7 +398,7 @@ function UserDashboard() {
     <div className="min-h-screen bg-gray-100">
 
       {/* Header */}
-      <header className="h-20 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-5 sm:px-8 flex items-center justify-between shadow-lg">
+      <header className="h-20 bg-linear-to-r from-blue-500 to-cyan-500 text-white px-5 sm:px-8 flex items-center justify-between shadow-lg">
 
         <h2 className="text-xl sm:text-2xl font-bold">
           Welcome,{" "}

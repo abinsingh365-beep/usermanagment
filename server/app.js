@@ -1,78 +1,88 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import errorHandler from "./middleware/errorHandler.js";
-
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import cors from "cors";
 
 import mongoConnect from "./db/mongoConnect.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
-import cors from "cors";
+import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
 
+// ==========================================
+// __dirname
+// ==========================================
 
-
-// Fix __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// ==========================================
+// MIDDLEWARE
+// ==========================================
 
-// Middleware
 app.use(cors());
+
 app.use(express.json());
 
-app.get("/", (req,res)=>{
-    res.send("your server is live...")
-})
+app.use(express.urlencoded({ extended: true }));
 
+// ==========================================
+// DATABASE
+// ==========================================
 
-// Database
 mongoConnect();
 
+// ==========================================
+// SERVER TEST
+// ==========================================
 
-// Routes
+app.get("/", (req, res) => {
+  res.send("Your server is live...");
+});
+
+// ==========================================
+// AUTH ROUTES
+// ==========================================
+
 app.use("/api/auth", authRoutes);
+
+// ==========================================
+// USER ROUTES
+// ==========================================
 
 app.use("/api/user", userRoutes);
 
+// ==========================================
+// UPLOADS
+// ==========================================
 
-// Uploads folder  
-app.use("/uploads", express.static(path.join(__dirname,"uploads")));
-
-
-// Client static folder
 app.use(
-    express.static(
-        path.join(__dirname, "../client")
-    )
+  "/uploads",
+  express.static(
+    path.join(__dirname, "uploads")
+  )
 );
 
+// ==========================================
+// ERROR HANDLER
+// ==========================================
 
-// Home Route
-app.get("/", (req, res) => {
-
-    res.sendFile(
-        path.join(__dirname, "../client/index.html")
-    );
-
-});
-
-
-// Error Handler
 app.use(errorHandler);
 
+// ==========================================
+// SERVER
+// ==========================================
 
-// Server
-app.listen(process.env.PORT, () => {
+const PORT = process.env.PORT || 3000;
 
-    console.log(
-        `Server running at http://localhost:${process.env.PORT}`
-    );
-
+app.listen(PORT, () => {
+  console.log(
+    `Server running at http://localhost:${PORT}`
+  );
 });
