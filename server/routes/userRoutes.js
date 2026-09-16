@@ -42,7 +42,7 @@ const router = express.Router();
 // Add User
 router.post(
     "/add-user",
-    setAccessControl("*"),
+    setAccessControl("1"),
     addUser
 );
 
@@ -50,7 +50,7 @@ router.post(
 // Get All Users
 router.get(
     "/all-users",
-    setAccessControl("*"),
+    setAccessControl("1"),
     getAllUsers
 );
 
@@ -58,7 +58,7 @@ router.get(
 // Update User
 router.put(
     "/update-user/:id",
-    setAccessControl("1,2"),
+    setAccessControl("1"),
     updateUser
 );
 
@@ -66,7 +66,7 @@ router.put(
 // Delete User
 router.delete(
     "/delete-user/:id",
-    setAccessControl("*"),
+    setAccessControl("1"),
     deleteUser
 );
 

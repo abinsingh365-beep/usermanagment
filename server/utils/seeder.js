@@ -1,6 +1,6 @@
 import mongoConnect from "../db/mongoConnect.js";
 import User from "../db/model/User.js";
-import UserType from "../db/model/userType.js";
+import UserType from "../db/model/UserType.js";
 
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";

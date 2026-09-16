@@ -27,7 +27,7 @@ export const addUser = async (req, res) => {
     }
 
     // Check existing user
-    const existingUser = await Users.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       let response = errorResponse({
@@ -71,7 +71,7 @@ export const addUser = async (req, res) => {
     const user_type = process.env.EMPLOYEE_USERTYPE;
 
     // Create user
-    await Users.create({
+    await User.create({
       name,
       email,
       password: hashedPassword,
@@ -107,36 +107,29 @@ export const addUser = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
   try {
+    console.log("GET ALL USERS STARTED");
 
-    const users = await Users.find().select("-password");
+    const users = await User.find()
+      .populate("user_type")
+      .select("-password");
 
-    if (!users || users.length === 0) {
-      let response = errorResponse({
-        message: "no users found",
-        statusCode: 404
-      });
+    console.log("USERS:", users);
 
-      return res.status(response.statusCode).send(response);
-    }
-
-    let response = successResponse({
-      statusCode: 200,
-      message: "users fetched successfully",
-      data: users
+    return res.status(200).json({
+      status: true,
+      message: "Users fetched successfully",
+      users: users,
     });
 
-    return res.status(response.statusCode).send(response);
+  } catch (error) {
+    console.error("GET ALL USERS ERROR:", error);
 
-  } catch (err) {
-
-    console.log("error from getAllUsers :", err.message || err);
-
-    let response = errorResponse({
-      message: err.message ? err.message : "something went wrong",
-      statusCode: 500
+    return res.status(500).json({
+      status: false,
+      message: "Failed to fetch users",
+      error: error.message,
+      stack: error.stack,
     });
-
-    return res.status(response.statusCode).send(response);
   }
 };
 export const updateUser = async (req, res) => {
@@ -186,7 +179,7 @@ export const deleteUser = async (req, res) => {
 
     const { id } = req.params;
 
-    const deletedUser = await Users.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(id);
 
     if (!deletedUser) {
 
@@ -250,7 +243,7 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create user
-    const newUser = await Users.create({
+    const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
@@ -533,7 +526,6 @@ export const updateProfile = async (req, res) => {
     }
 
 };
-
 
 export const updateProfileImage = async (req, res) => {
 

@@ -105,9 +105,14 @@ function AdminDashboard() {
   // CHECK LOGIN
   // ==========================================
   useEffect(() => {
-    const user = JSON.parse(
-      localStorage.getItem("user")
-    );
+    let user = null;
+
+    try {
+      const storedUser = localStorage.getItem("user");
+      user = storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+      localStorage.removeItem("user");
+    }
 
     if (!user) {
       navigate("/login");
@@ -148,6 +153,11 @@ function AdminDashboard() {
   // ADD USER
   // ==========================================
   const addUser = async () => {
+    if (selectedId) {
+      alert("Clear the selected user before adding a new user");
+      return;
+    }
+
     if (!formData.name || !formData.email) {
       alert("Please fill all fields");
       return;
@@ -353,7 +363,7 @@ function AdminDashboard() {
           <div className="flex flex-col sm:flex-row gap-3 mt-6">
             <button
               onClick={addUser}
-              disabled={loading}
+              disabled={loading || Boolean(selectedId)}
               className="flex-1 py-3 rounded-xl bg-green-500 text-white font-bold hover:bg-green-600 transition disabled:opacity-50"
             >
               {loading ? "Processing..." : "Add User"}
@@ -383,7 +393,7 @@ function AdminDashboard() {
           </h2>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[700px]">
+            <table className="w-full min-w-175">
               <thead>
                 <tr className="bg-blue-600">
                   <th className="px-4 py-4 text-white text-left">
@@ -430,7 +440,7 @@ function AdminDashboard() {
 
                       <td className="px-4 py-4 text-center">
                         <span className="px-3 py-1 rounded-full bg-purple-500 text-white text-sm font-semibold">
-                          {user.user_type}
+                          {user.user_type?.user_type || "Unknown"}
                         </span>
                       </td>
 

@@ -90,13 +90,10 @@ export const signin = async (req, res) => {
 
   } catch (error) {
     console.error("Signin Error:", error);
-    next(err);
-
-    // return res.status(500).json({
-    //   status: false,
-    //   message: "Server Error",
-    //   error: error.message
-    // });
+    return res.status(500).json({
+      status: false,
+      message: "Server Error",
+    });
   }
 };
 
@@ -133,13 +130,14 @@ export const forgotPassword = async (req, res) => {
 
     // Create reset link
 const resetLink =
-`${process.env.FRONTEND_URL}/resetPassword.html?token=${resetToken}`;
+  `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
-    // Create email content
-    const emailContent = forgotPasswordTemplate({
-      USER_NAME: user.name,
-      FORGOT_PASSWORD_URL: resetLink,
-    });
+console.log("RESET LINK:", resetLink);
+
+const emailContent = forgotPasswordTemplate({
+  USER_NAME: user.name,
+  FORGOT_PASSWORD_URL: resetLink,
+});
 
     // Send email
     await sendMail(
@@ -152,7 +150,6 @@ const resetLink =
       status: true,
       message: "Password reset link has been sent",
     });
-    console.log("Reset Link:", resetLink);
 
   } catch (error) {
     console.error("Forgot Password Error:", error);
@@ -169,9 +166,14 @@ const resetLink =
 
 // Forgot Password
 
+
 export const forgotPasswordReset = async (req, res) => {
   try {
-    const { token, newPassword, confirmPassword } = req.body;
+    const {
+      token,
+      newPassword,
+      confirmPassword
+    } = req.body;
 
     // Check required fields
     if (!token || !newPassword || !confirmPassword) {
@@ -189,8 +191,20 @@ export const forgotPasswordReset = async (req, res) => {
       });
     }
 
-    // Verify reset token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Verify JWT token
+    let decoded;
+
+    try {
+      decoded = jwt.verify(
+        token,
+        process.env.JWT_SECRET
+      );
+    } catch (error) {
+      return res.status(400).json({
+        status: false,
+        message: "Reset link is invalid or expired",
+      });
+    }
 
     // Find user
     const user = await User.findById(decoded.user_id);
@@ -202,8 +216,19 @@ export const forgotPasswordReset = async (req, res) => {
       });
     }
 
+    // Optional: check token stored in database
+    if (user.password_token !== token) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid reset token",
+      });
+    }
+
     // Hash new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      10
+    );
 
     // Update password
     const data = await User.updateOne(
@@ -217,7 +242,7 @@ export const forgotPasswordReset = async (req, res) => {
       }
     );
 
-    if (data.matchedCount === 1 && data.modifiedCount === 1) {
+    if (data.matchedCount === 1) {
       return res.status(200).json({
         status: true,
         message: "Password changed successfully",
@@ -228,7 +253,20 @@ export const forgotPasswordReset = async (req, res) => {
       status: false,
       message: "Password update failed",
     });
+
   } catch (error) {
-      next(err);
+    console.error(
+      "Reset Password Error:",
+      error
+    );
+
+    return res.status(500).json({
+      status: false,
+      message:
+        error.message ||
+        "Internal server error",
+    });
   }
 };
+
+
