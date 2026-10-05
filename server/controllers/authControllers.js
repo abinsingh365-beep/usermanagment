@@ -8,7 +8,6 @@ import { log } from "console";
 import sendMail from "../utils/sendMail.js";
 import forgotPasswordTemplate from "../utils/forgotPasswordTemplate.js"
 
-
 export const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -130,7 +129,7 @@ export const forgotPassword = async (req, res) => {
 
     // Create reset link
 const resetLink =
-  `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+  `${process.env.FRONTENDD_URL}/reset-password?token=${resetToken}`;
 
 console.log("RESET LINK:", resetLink);
 

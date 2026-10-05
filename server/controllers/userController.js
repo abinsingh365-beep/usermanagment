@@ -8,6 +8,7 @@ import sendMail from "../utils/sendMail.js";
 import User from "../db/model/User.js";
 
 
+
 dotenv.config();
 
 export const addUser = async (req, res) => {

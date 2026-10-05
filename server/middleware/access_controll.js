@@ -37,6 +37,7 @@ const accessControl = async function (access_types, req, res, next) {
                 message: "user not found",
                 statusCode: 404
             });
+            
             return res.status(response.statusCode).send(response);
         }
 

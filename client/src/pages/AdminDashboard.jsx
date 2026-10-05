@@ -89,7 +89,7 @@ function AdminDashboard() {
 
       dispatch({
         type: "SET_USERS",
-        payload: response.data.data || [],
+        payload: response.data.users || [],
       });
     } catch (error) {
       console.log("Get users error:", error);
