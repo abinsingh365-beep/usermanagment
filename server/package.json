@@ -1,5 +1,5 @@
 {
-  "names": "usermanagment",
+  "name": "usermanagment",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
+    "start": "node app.js",
     "seed": "nodemon ./utils/seeder.js"
   },
   "dependencies": {
