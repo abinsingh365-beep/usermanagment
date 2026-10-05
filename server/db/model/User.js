@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import "./UserType.js";
+import "./userType.js";
 
 const userSchema = new mongoose.Schema(
   {
