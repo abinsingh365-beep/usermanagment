@@ -129,7 +129,7 @@ export const forgotPassword = async (req, res) => {
 
     // Create reset link
 const resetLink =
-  `${process.env.FRONTENDD_URL}/reset-password?token=${resetToken}`;
+  `https://sonuusm.netlify.app/reset-password?token=${resetToken}`;
 
 console.log("RESET LINK:", resetLink);
 

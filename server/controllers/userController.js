@@ -57,7 +57,7 @@ export const addUser = async (req, res) => {
     let password_variables = {
       USER_NAME: name,
       EMAIL: email,
-      LOGIN_URL: "http://localhost:5173/login",
+      LOGIN_URL: "sonuusm.netlify.app/login",
       PASSWORD: password
     }
 
